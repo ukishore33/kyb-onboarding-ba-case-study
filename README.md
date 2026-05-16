@@ -116,7 +116,8 @@ When discussing this project in BA interviews:
 6. **Business Impact:** "I quantified the ROI as ₹90L/year with 4-month payback, using internally consistent metrics"
 
 7. **Agile Delivery:** "I planned 4 sprints with 53 story points, organized by Epic"
-
+   
+##### [Live Demo](https://ukishore33.github.io/kyb-onboarding-ba-case-study/kyb_process_dashboard.html)
 ---
 
 ## 📞 Contact
