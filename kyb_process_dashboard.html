@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KYB Process Dashboard - NovaPay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #1a1a2e;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 30px 0;
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .author {
+            font-size: 12px;
+            opacity: 0.6;
+            margin-top: 10px;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .metric-change {
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .metric-change.positive {
+            color: #10b981;
+        }
+
+        .metric-change.negative {
+            color: #ef4444;
+        }
+
+        /* Process Comparison */
+        .process-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .process-column {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .process-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .process-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .as-is .process-icon {
+            background: #fee2e2;
+        }
+
+        .to-be .process-icon {
+            background: #d1fae5;
+        }
+
+        .process-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .process-subtitle {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .pain-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .pain-point:last-child {
+            border-bottom: none;
+        }
+
+        .point-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .as-is .point-icon {
+            background: #fecaca;
+            color: #dc2626;
+        }
+
+        .to-be .point-icon {
+            background: #a7f3d0;
+            color: #059669;
+        }
+
+        .point-text {
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .point-metric {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        /* Chart Section */
+        .chart-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        /* Stats List */
+        .stats-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .stat-values {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .stat-before {
+            font-size: 14px;
+            color: #dc2626;
+            text-decoration: line-through;
+        }
+
+        .stat-arrow {
+            color: #9ca3af;
+        }
+
+        .stat-after {
+            font-size: 14px;
+            font-weight: 600;
+            color: #059669;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .process-comparison {
+                grid-template-columns: 1fr;
+            }
+            .chart-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>KYB Onboarding Process Automation</h1>
+            <p class="subtitle">NovaPay Financial Services | Business Impact Dashboard</p>
+            <p class="author">BA Case Study by Kishore U. | linkedin.com/in/kishore-techie | 6303308133</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Key Metrics -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">TAT Reduction</div>
+                <div class="metric-value">70%</div>
+                <div class="metric-change positive">↓ From 5-7 days to 1-2 days</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Cost Per Onboarding</div>
+                <div class="metric-value">₹900</div>
+                <div class="metric-change positive">↓ From ₹2,800 (-68%)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Risk Detection Rate</div>
+                <div class="metric-value">92%</div>
+                <div class="metric-change positive">↑ From 40% (+130%)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Monthly Savings</div>
+                <div class="metric-value">₹7.5L</div>
+                <div class="metric-change positive">₹90L annually</div>
+            </div>
+        </div>
+
+        <!-- Process Comparison -->
+        <div class="process-comparison">
+            <div class="process-column as-is">
+                <div class="process-header">
+                    <div class="process-icon">📋</div>
+                    <div>
+                        <div class="process-title">AS-IS: Manual Process</div>
+                        <div class="process-subtitle">Current State - Pain Points</div>
+                    </div>
+                </div>
+                <div class="pain-point">
+                    <div class="point-icon">⏱</div>
+                    <div>
+                        <div class="point-text">5-7 business days average TAT</div>
+                        <div class="point-metric">Above industry benchmark of 2-3 days</div>
+                    </div>
+                </div>
+                <div class="pain-point">
+                    <div class="point-icon">👤</div>
+                    <div>
+                        <div class="point-text">3 FTE analysts doing manual screening</div>
+                        <div class="point-metric">70% time on low-risk entities</div>
+                    </div>
+                </div>
+                <div class="pain-point">
+                    <div class="point-icon">📄</div>
+                    <div>
+                        <div class="point-text">35% rework rate</div>
+                        <div class="point-metric">Incomplete document collection</div>
+                    </div>
+                </div>
+                <div class="pain-point">
+                    <div class="point-icon">💰</div>
+                    <div>
+                        <div class="point-text">₹2,800 cost per onboarding</div>
+                        <div class="point-metric">No risk differentiation</div>
+                    </div>
+                </div>
+                <div class="pain-point">
+                    <div class="point-icon">⚠️</div>
+                    <div>
+                        <div class="point-text">40% high-risk entity detection</div>
+                        <div class="point-metric">2 FATF-jurisdiction entities missed in 2023</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="process-column to-be">
+                <div class="process-header">
+                    <div class="process-icon">⚡</div>
+                    <div>
+                        <div class="process-title">TO-BE: Automated Process</div>
+                        <div class="process-subtitle">Target State - Improvements</div>
+                    </div>
+                </div>
+                <div class="pain-point">
+                    <div class="point-icon">✓</div>
+                    <div>
+                        <div class="point-text">1-2 days for Low/Medium risk (70%)</div>
+                        <div class="point-metric">Same day for auto-approved entities</div>
+                    </div>
+                </div>
+                <div class="pain-point">
+                    <div class="point-icon">✓</div>
+                    <div>
+                        <div class="point-text">ML-powered risk scoring in <2 minutes</div>
+                        <div class="point-metric">9 risk dimensions evaluated</div>
+                    </div>
+                </div>
+                <div class="pain-point">
+                    <div class="point-icon">✓</div>
+                    <div>
+                        <div class="point-text">8% rework rate</div>
+                        <div class="point-metric">Auto document validation</div>
+                    </div>
+                </div>
+                <div class="pain-point">
+                    <div class="point-icon">✓</div>
+                    <div>
+                        <div class="point-text">₹900 average cost per onboarding</div>
+                        <div class="point-metric">Risk-tiered processing</div>
+                    </div>
+                </div>
+                <div class="pain-point">
+                    <div class="point-icon">✓</div>
+                    <div>
+                        <div class="point-text">92% high-risk entity detection</div>
+                        <div class="point-metric">Real-time FATF monitoring</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts and Stats -->
+        <div class="chart-section">
+            <div class="chart-card">
+                <div class="chart-title">Onboarding Volume by Risk Tier</div>
+                <div class="chart-container">
+                    <canvas id="riskTierChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">Key Improvements</div>
+                <div class="stats-list">
+                    <div class="stat-item">
+                        <span class="stat-label">TAT</span>
+                        <div class="stat-values">
+                            <span class="stat-before">5-7 days</span>
+                            <span class="stat-arrow">→</span>
+                            <span class="stat-after">1-2 days</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Cost</span>
+                        <div class="stat-values">
+                            <span class="stat-before">₹2,800</span>
+                            <span class="stat-arrow">→</span>
+                            <span class="stat-after">₹900</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Detection</span>
+                        <div class="stat-values">
+                            <span class="stat-before">40%</span>
+                            <span class="stat-arrow">→</span>
+                            <span class="stat-after">92%</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Rework</span>
+                        <div class="stat-values">
+                            <span class="stat-before">35%</span>
+                            <span class="stat-arrow">→</span>
+                            <span class="stat-after">8%</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Auto-Approve</span>
+                        <div class="stat-values">
+                            <span class="stat-before">0%</span>
+                            <span class="stat-arrow">→</span>
+                            <span class="stat-after">70%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>KYB Onboarding Process Automation | BA Case Study | Kishore U. | github.com/ukishore33</p>
+    </footer>
+
+    <script>
+        // Risk Tier Distribution Chart
+        const ctx = document.getElementById('riskTierChart').getContext('2d');
+        
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Low Risk (0-30)', 'Medium Risk (31-60)', 'High Risk (61-100)'],
+                datasets: [{
+                    data: [70, 25, 5],
+                    backgroundColor: [
+                        '#10b981',
+                        '#f59e0b',
+                        '#ef4444'
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true,
+                            font: {
+                                family: 'Inter',
+                                size: 12
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.raw + '%';
+                            }
+                        }
+                    }
+                },
+                cutout: '60%'
+            }
+        });
+    </script>
+</body>
+</html>

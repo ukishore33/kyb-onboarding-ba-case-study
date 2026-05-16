@@ -1,0 +1,261 @@
+{
+  "metrics": {
+    "gradient_boosting": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "roc_auc": 1.0,
+      "cv_auc_mean": 1.0,
+      "cv_auc_std": 0.0
+    },
+    "random_forest": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "roc_auc": 1.0
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "layering_depth",
+      "importance": 0.6701
+    },
+    {
+      "feature": "structure_complexity",
+      "importance": 0.1902
+    },
+    {
+      "feature": "num_subsidiaries",
+      "importance": 0.1397
+    },
+    {
+      "feature": "financial_opacity",
+      "importance": 0.0
+    },
+    {
+      "feature": "reg_age_years",
+      "importance": 0.0
+    },
+    {
+      "feature": "shell_company_flag",
+      "importance": 0.0
+    },
+    {
+      "feature": "jurisdiction_risk_enc",
+      "importance": 0.0
+    },
+    {
+      "feature": "sector_risk_enc",
+      "importance": 0.0
+    },
+    {
+      "feature": "entity_type_enc",
+      "importance": 0.0
+    },
+    {
+      "feature": "ubo_disclosed",
+      "importance": 0.0
+    },
+    {
+      "feature": "ubo_pep_flag",
+      "importance": 0.0
+    },
+    {
+      "feature": "ubo_sanctions_flag",
+      "importance": 0.0
+    },
+    {
+      "feature": "entity_sanctions_flag",
+      "importance": 0.0
+    },
+    {
+      "feature": "worldcheck_hit",
+      "importance": 0.0
+    },
+    {
+      "feature": "complex_structure_flag",
+      "importance": 0.0
+    },
+    {
+      "feature": "adverse_media_flag",
+      "importance": 0.0
+    },
+    {
+      "feature": "adverse_media_count",
+      "importance": 0.0
+    },
+    {
+      "feature": "dormant_flag",
+      "importance": 0.0
+    },
+    {
+      "feature": "multi_directorship_flag",
+      "importance": 0.0
+    },
+    {
+      "feature": "director_company_count",
+      "importance": 0.0
+    },
+    {
+      "feature": "docs_complete",
+      "importance": 0.0
+    },
+    {
+      "feature": "ubo_opacity_score",
+      "importance": 0.0
+    },
+    {
+      "feature": "alert_signal_count",
+      "importance": 0.0
+    }
+  ],
+  "confusion_matrix": [
+    [
+      159,
+      0
+    ],
+    [
+      0,
+      41
+    ]
+  ],
+  "summary": {
+    "total_entities": 1000,
+    "high_risk_entities": 205,
+    "medium_risk_entities": 0,
+    "low_risk_entities": 795,
+    "worldcheck_hits": 77,
+    "pep_flagged": 66,
+    "sanctions_flagged": 77,
+    "shell_companies": 109,
+    "adverse_media": 76,
+    "docs_incomplete": 85,
+    "offshore_jurisdictions": 140
+  },
+  "sector_breakdown": [
+    {
+      "sector": "Arms & Defense",
+      "High": 30,
+      "Low": 0
+    },
+    {
+      "sector": "Cryptocurrency",
+      "High": 19,
+      "Low": 0
+    },
+    {
+      "sector": "Education",
+      "High": 10,
+      "Low": 125
+    },
+    {
+      "sector": "Gambling",
+      "High": 32,
+      "Low": 0
+    },
+    {
+      "sector": "Healthcare",
+      "High": 7,
+      "Low": 113
+    },
+    {
+      "sector": "Hospitality",
+      "High": 0,
+      "Low": 24
+    },
+    {
+      "sector": "IT Services",
+      "High": 11,
+      "Low": 119
+    },
+    {
+      "sector": "Import/Export",
+      "High": 0,
+      "Low": 27
+    },
+    {
+      "sector": "Logistics",
+      "High": 15,
+      "Low": 99
+    },
+    {
+      "sector": "Manufacturing",
+      "High": 23,
+      "Low": 111
+    },
+    {
+      "sector": "Mining",
+      "High": 25,
+      "Low": 0
+    },
+    {
+      "sector": "Money Services",
+      "High": 0,
+      "Low": 23
+    },
+    {
+      "sector": "Oil & Gas Trading",
+      "High": 26,
+      "Low": 0
+    },
+    {
+      "sector": "Pawnbroking",
+      "High": 0,
+      "Low": 27
+    },
+    {
+      "sector": "Real Estate",
+      "High": 0,
+      "Low": 25
+    },
+    {
+      "sector": "Retail",
+      "High": 7,
+      "Low": 102
+    }
+  ],
+  "juris_breakdown": [
+    {
+      "jurisdiction": "Cayman Islands",
+      "count": 25
+    },
+    {
+      "jurisdiction": "Seychelles",
+      "count": 23
+    },
+    {
+      "jurisdiction": "Vanuatu",
+      "count": 23
+    },
+    {
+      "jurisdiction": "Belize",
+      "count": 21
+    },
+    {
+      "jurisdiction": "British Virgin Islands",
+      "count": 16
+    },
+    {
+      "jurisdiction": "Marshall Islands",
+      "count": 16
+    },
+    {
+      "jurisdiction": "Panama",
+      "count": 16
+    },
+    {
+      "jurisdiction": "Canada",
+      "count": 15
+    },
+    {
+      "jurisdiction": "Australia",
+      "count": 13
+    },
+    {
+      "jurisdiction": "USA",
+      "count": 10
+    }
+  ]
+}
